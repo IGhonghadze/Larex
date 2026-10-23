@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Гонгадзе Илларион Сергеевич — Галерея цифровых шедевров & Вайб-кодинг</title>
+  <meta name="description" content="Персональная витрина Гонгадзе Иллариона Сергеевича. Создание уникальных сайтов и программ нового поколения за дни вместо месяцев." />
+
+  <!-- Fonts: Playfair Display + Plus Jakarta Sans + Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            noir: "#06070a",
+            deep: "#0a0c13",
+            gold: {
+              300: "#fde68a",
+              400: "#fbbf24",
+              500: "#f59e0b"
+            },
+            celestial: {
+              400: "#818cf8",
+              500: "#6366f1",
+              600: "#4f46e5"
+            }
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            display: ["Plus Jakarta Sans", "sans-serif"],
+            serif: ["Playfair Display", "serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #06070a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e2235;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #6366f1;
+    }
+
+    /* Museum Showcase Card */
+    .showcase-exhibit {
+      background: rgba(12, 15, 24, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .showcase-exhibit:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 40px 80px -20px rgba(99, 102, 241, 0.25), 0 0 30px -5px rgba(255, 255, 255, 0.08);
+      transform: translateY(-5px);
+    }
+
+    /* Luxury Gold & Celestial Gradient */
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, #fde68a 45%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .celestial-gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 40%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Canvas full screen background */
+    #space-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: auto;
+      z-index: 0;
+    }
+
+    /* Floating Badge */
+    .curator-tag {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+  </style>
+</head>
+
+<body class="bg-noir text-slate-100 font-sans min-h-screen relative overflow-x-hidden selection:bg-celestial-500 selection:text-white">
+
+  <!-- THE LIVING INTERACTIVE UNIVERSE CANVAS (CONSTELLATIONS & FLYING PIGS) -->
+  <canvas id="space-canvas"></canvas>
+
+  <!-- PIG INTERACTION FLOATING TOOLBAR -->
+  <div class="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-black/75 backdrop-blur-xl border border-white/15 p-2 rounded-full shadow-2xl">
+    <button onclick="spawnFlyingPig()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-pink-500/15 hover:bg-pink-500/25 border border-pink-400/30 text-pink-300 text-xs font-semibold transition-all group" title="Выпустить ещё одну летающую свинку!">
+      <span class="group-hover:rotate-12 transition-transform text-sm">🐷🪽</span>
+      <span>Выпустить свинку (<span id="pig-counter">4</span>)</span>
+    </button>
+    <div class="h-4 w-px bg-white/15"></div>
+    <div class="px-3 py-1 text-[11px] font-mono text-slate-400 flex items-center gap-1.5">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>Тяните созвездия мышкой!</span>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-noir/75 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+      <!-- Identity -->
+      <a href="#hero" class="flex items-center gap-4 group">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-celestial-600 to-indigo-900 border border-white/20 text-white font-serif italic font-bold text-xl flex items-center justify-center shadow-lg shadow-celestial-500/20 group-hover:scale-105 group-hover:border-celestial-400 transition-all">
+          ИГ
+        </div>
+        <div>
+          <div class="font-serif text-lg sm:text-xl font-bold text-white tracking-wide flex items-center gap-2">
+            Гонгадзе Илларион Сергеевич
+          </div>
+          <div class="text-xs font-mono text-gold-300 tracking-widest uppercase">
+            Архитектура цифровых шедевров • Vibe Coding
+          </div>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center space-x-2 text-sm font-medium text-slate-300">
+        <a href="#manifesto" class="px-4 py-2 rounded-xl hover:text-white hover:bg-white/5 transition-colors">
+          // Манифест
+        </a>
+        <a href="#gallery" class="px-4 py-2 rounded-xl hover:text-white hover:bg-white/5 transition-colors">
+          // Витрина залов
+        </a>
+        <a href="#lab" class="px-4 py-2 rounded-xl hover:text-white hover:bg-white/5 transition-colors">
+          // Анатомия магии
+        </a>
+        <a href="#creator" class="px-4 py-2 rounded-xl hover:text-white hover:bg-white/5 transition-colors">
+          // Создатель
+        </a>
+      </nav>
+
+      <!-- Right Contact Link -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleMediaModal()" class="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 bg-white/5 hover:bg-white/10 border border-white/10 transition-all">
+          <span class="material-symbols-outlined text-sm text-gold-400">photo_library</span>
+          <span>Вставить фото</span>
+        </button>
+
+        <a href="https://t.me/illarion" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-celestial-600 to-indigo-700 hover:from-celestial-500 hover:to-indigo-600 text-white font-display font-bold text-xs uppercase tracking-wider shadow-lg shadow-celestial-500/30 active:scale-95 transition-all border border-white/10">
+          <span class="material-symbols-outlined text-base">send</span>
+          <span>Telegram // @illarion</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN STORYTELLING CONTENT -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24 space-y-36 sm:space-y-48">
+
+    <!-- HERO CHAPTER: ENTRANCE TO THE EXHIBITION -->
+    <section id="hero" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-8 space-y-8">
+        <!-- Live Badge -->
+        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full curator-tag text-xs font-mono text-slate-300">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>ЗАЛ 00 // ЭКСПОЗИЦИЯ ПЕРСОНЫ</span>
+          <span class="text-white/30">•</span>
+          <span class="text-gold-300">ПРОСТРАНСТВО НАТЯГИВАЕТСЯ МЫШКОЙ</span>
+        </div>
+
+        <!-- Master Title -->
+        <div class="space-y-4">
+          <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-white tracking-tight leading-[1.08]">
+            Сайты и программы, <br />
+            где <span class="gold-gradient-text italic">летают даже свиньи</span>
+          </h1>
+          <p class="text-lg sm:text-2xl text-slate-300 font-normal leading-relaxed max-w-3xl">
+            Добро пожаловать в персональную цифровую галерею <strong>Гонгадзе Иллариона Сергеевича</strong>. 
+            Я разрушаю старые стереотипы о том, что надежный, сложный и прибыльный продукт для бизнеса нужно ждать месяцами.
+          </p>
+        </div>
+
+        <!-- Interaction Prompt Box -->
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-celestial-500/20 text-celestial-300 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-xl">gesture</span>
+            </div>
+            <div>
+              <div class="text-sm font-bold text-white">Попробуйте провести курсором по фону!</div>
+              <div class="text-xs text-slate-400">Линии созвездий натягиваются как упругие резинки и с пружинящей физикой возвращаются назад.</div>
+            </div>
+          </div>
+          <a href="#gallery" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-gold-300 transition-all shrink-0">
+            Войти в залы витрины ↓
+          </a>
+        </div>
+
+        <!-- Stats of the Maker -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+            <div class="text-2xl sm:text-3xl font-serif font-bold text-white">48 ч</div>
+            <div class="text-xs text-slate-400 mt-1">Первый готовый показ</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+            <div class="text-2xl sm:text-3xl font-serif font-bold text-gold-300">0 стр</div>
+            <div class="text-xs text-slate-400 mt-1">Бюрократии и ТЗ</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+            <div class="text-2xl sm:text-3xl font-serif font-bold text-celestial-400">100%</div>
+            <div class="text-xs text-slate-400 mt-1">Прямой диалог с автором</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+            <div class="text-2xl sm:text-3xl font-serif font-bold text-pink-300">10x</div>
+            <div class="text-xs text-slate-400 mt-1">Скорость мышления</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Portrait Vitrine -->
+      <div class="lg:col-span-4 flex justify-center">
+        <div class="relative w-full max-w-sm">
+          <!-- Glass Sculpture Vitrine -->
+          <div class="showcase-exhibit rounded-3xl p-5 border border-white/15 relative overflow-hidden">
+            <!-- Framing Top -->
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10 text-xs font-mono">
+              <span class="text-gold-300">PORTRAIT // ЭКСПОНАТ №0</span>
+              <span class="text-slate-400">ОПЕРАТОР: И.С.</span>
+            </div>
+
+            <!-- Portrait Frame -->
+            <div class="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-slate-900 border border-white/10 group">
+              <img 
+                id="creator-photo"
+                src="assets/photo.jpg" 
+                onerror="this.onerror=null; this.src='https://lh3.googleusercontent.com/aida-public/AB6AXuBCRyfSZr8DlSwTiow_5c0UfByMtMqFiBKGIq21FdcCMdb1cvMG6TlVfJMxTYkJuseTjE8Hw4lWoV896ydlVIax9XSMRxrQyVeVMZGu9nMmGXX_khqfsPQcrW_BX0Oads2VT-G2PVrMvuW_9xlC3lK3Q-jT1c4JM7XMQLktrfCBqhY7OqOXcUg-1te08av9S1VYPxXezcPYusk7ROb1WJP1lMuG1OfKOFcEDHJebU_yY13m7LsG-ATHIgv6_Ha2fB8ts8eP1aa-CA';"
+                alt="Гонгадзе Илларион Сергеевич" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-noir/90 via-transparent to-transparent"></div>
+
+              <!-- Plate Info on bottom of portrait -->
+              <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-noir/80 backdrop-blur-md border border-white/10">
+                <div class="font-serif font-bold text-white text-base">Гонгадзе Илларион</div>
+                <div class="text-xs text-slate-400">Создатель цифровых пространств</div>
+              </div>
+
+              <!-- Quick Replace Trigger -->
+              <button onclick="toggleMediaModal()" class="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white text-xs gap-2 transition-opacity p-4 text-center cursor-pointer">
+                <span class="material-symbols-outlined text-3xl text-gold-400">add_a_photo</span>
+                <span class="font-bold">Заменить на ваше фото</span>
+                <span class="text-[11px] text-slate-300">(Нажмите или положите в assets/photo.jpg)</span>
+              </button>
+            </div>
+
+            <!-- Plaque -->
+            <div class="mt-4 pt-1 text-center font-serif italic text-xs text-slate-400">
+              «Вайб-кодинг — это искусство материализации мыслей без трения»
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 1: THE MANIFESTO (ПОЧЕМУ ЛЕТАЮТ СВИНКИ?) -->
+    <section id="manifesto" class="space-y-12 scroll-mt-24">
+      <div class="max-w-4xl mx-auto showcase-exhibit rounded-3xl p-8 sm:p-14 border border-pink-500/20 relative overflow-hidden">
+        <!-- Floating Flying Pig Emblem -->
+        <div class="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-pink-500/10 blur-3xl pointer-events-none"></div>
+
+        <div class="flex items-center gap-3 mb-6">
+          <span class="text-3xl">🐷🪽</span>
+          <span class="text-xs font-mono text-pink-300 uppercase tracking-widest">
+            ФИЛОСОФСКИЙ МАНИФЕСТ // METAPHORA
+          </span>
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl font-serif font-bold text-white leading-tight mb-6">
+          «Когда свиньи полетят» — почему это про вайб-кодинг?
+        </h2>
+
+        <div class="space-y-6 text-slate-300 text-base sm:text-lg leading-relaxed font-light">
+          <p>
+            В английском языке есть старая поговорка: <em>«When pigs fly» («Когда свиньи полетят»)</em> — так говорят о вещах, которые абсолютно невозможны в реальном мире.
+          </p>
+          <p>
+            Еще пару лет назад, если бы вы пришли в веб-студию и сказали: <br />
+            <span class="text-white font-medium pl-4 border-l-2 border-gold-400 block my-2 italic">
+              «Мне нужен сложный, красивый сервис с онлайн-оплатой, базой данных и Telegram-ботом. Но без 50 страниц ТЗ, за 3 дня и по адекватной цене частного мастера»,
+            </span>
+            вам бы рассмеялись в лицо и сказали: <em>«Ага, сделаем... когда свиньи полетят!»</em>.
+          </p>
+          <p class="text-white font-serif text-xl sm:text-2xl pt-2">
+            Взгляните на фон этого сайта. <strong>Свиньи уже летают.</strong>
+          </p>
+          <p>
+            Вайб-кодинг перевернул индустрию. Мы больше не тратим месяцы на рутинную писанину кода. Я оркестрирую интеллект новейших нейросетей, концентрируясь только на продуктовой магии, эстетике и вашей пользе. То, что раньше казалось невозможным — теперь стандарт моей работы.
+          </p>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-2 text-xs font-mono text-slate-400">
+            <span class="text-gold-300">✓</span> <span>Невозможное вчера — норма сегодня</span>
+          </div>
+          <button onclick="spawnFlyingPig()" class="px-5 py-2.5 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 border border-pink-500/40 text-pink-200 text-xs font-bold font-mono transition-all">
+            + Запустить ещё свинку на экран 🪽
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2: THE GALLERY OF EXHIBITS (КАЖДЫЙ БЛОК — КАК ШИКАРНАЯ ВИТРИНА) -->
+    <section id="gallery" class="space-y-24 scroll-mt-24">
+      <div class="text-center max-w-3xl mx-auto space-y-4">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full curator-tag text-xs font-mono text-gold-300 uppercase tracking-widest">
+          ПОСТОЯННАЯ ЭКСПОЗИЦИЯ
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-serif font-bold text-white">
+          Витрина цифровых шедевров
+        </h2>
+        <p class="text-slate-400 text-base sm:text-lg">
+          Каждый проект — отдельная история решения проблемы бизнеса. Исследуйте их как экспонаты в галерее.
+        </p>
+      </div>
+
+      <!-- EXHIBIT 01: UseIt Marketplace -->
+      <div class="showcase-exhibit rounded-3xl p-6 sm:p-12 border border-white/10 relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-6 space-y-6">
+            <div class="flex items-center gap-3 font-mono text-xs text-gold-400">
+              <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">ЭКСПОНАТ №01</span>
+              <span>// МАРКЕТПЛЕЙС АРЕНДЫ</span>
+            </div>
+
+            <h3 class="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight">
+              UseIt — Платформа аренды техники и гаджетов
+            </h3>
+
+            <!-- Storytelling -->
+            <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+              <div class="p-4 rounded-xl bg-white/5 border-l-2 border-celestial-400">
+                <strong class="text-white block mb-1">История задачи:</strong>
+                Покупка дорогой камеры или дрона на пару съемок — удар по бюджету. Нужно было создать красивую витрину, где владельцы могут безопасно сдавать свои гаджеты в аренду.
+              </div>
+              <div class="p-4 rounded-xl bg-white/5 border-l-2 border-emerald-400">
+                <strong class="text-white block mb-1">Воплощение:</strong>
+                Интерактивный каталог с 3D-иконками категорий (Sony, DJI, Kärcher), интерактивная карта, умный расчет залога и моментальная бронь через Telegram.
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">3D UI Catalog</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Календарь брони</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Система депозитов</span>
+            </div>
+
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between font-mono text-xs">
+              <span class="text-emerald-400">Срок создания: 4 дня</span>
+              <a href="https://t.me/illarion" target="_blank" class="text-gold-300 hover:underline flex items-center gap-1 font-bold">
+                <span>Обсудить подобный сервис</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Exhibit Slot for project 1 screenshot -->
+          <div class="lg:col-span-6">
+            <div class="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-white/15 shadow-2xl group">
+              <img 
+                id="img-exhibit-1"
+                src="assets/projects/project1.png" 
+                onerror="showMuseumPlaceholder(this, 'UseIt — P2P Аренда техники', 'Скриншот: assets/projects/project1.png')" 
+                alt="UseIt Marketplace" 
+                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" 
+              />
+              <div class="absolute bottom-3 right-3 bg-black/80 px-3 py-1 rounded-full font-mono text-[11px] text-slate-300 border border-white/10">
+                Слот: assets/projects/project1.png
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXHIBIT 02: SaaS OKO -->
+      <div class="showcase-exhibit rounded-3xl p-6 sm:p-12 border border-white/10 relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-6 lg:order-2 space-y-6">
+            <div class="flex items-center gap-3 font-mono text-xs text-emerald-400">
+              <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">ЭКСПОНАТ №02</span>
+              <span>// B2B ИНЖЕНЕРНЫЕ СМЕТЫ</span>
+            </div>
+
+            <h3 class="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight">
+              «Око» — Инженерный калькулятор сложных конструкций
+            </h3>
+
+            <!-- Storytelling -->
+            <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+              <div class="p-4 rounded-xl bg-white/5 border-l-2 border-emerald-400">
+                <strong class="text-white block mb-1">История задачи:</strong>
+                Замерщики завода тратили до 40 минут на бумажные расчеты стоимости нестандартных витражей и окон, постоянно ошибаясь в фурнитуре и стоимости монтажа.
+              </div>
+              <div class="p-4 rounded-xl bg-white/5 border-l-2 border-gold-400">
+                <strong class="text-white block mb-1">Воплощение:</strong>
+                Планшетный веб-терминал с крупными полями для перчаток, динамическим пересчетом площади и генерацией готовой сметы в PDF за 120 секунд.
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Калькуляция смет</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Генератор PDF</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Синхронизация склада</span>
+            </div>
+
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between font-mono text-xs">
+              <span class="text-emerald-400">Срок создания: 3 дня</span>
+              <a href="https://t.me/illarion" target="_blank" class="text-gold-300 hover:underline flex items-center gap-1 font-bold">
+                <span>Обсудить подобную программу</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Exhibit Slot for project 2 screenshot -->
+          <div class="lg:col-span-6 lg:order-1">
+            <div class="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-white/15 shadow-2xl group">
+              <img 
+                id="img-exhibit-2"
+                src="assets/projects/project2.png" 
+                onerror="showMuseumPlaceholder(this, 'Программа расчета смет «Око»', 'Скриншот: assets/projects/project2.png')" 
+                alt="SaaS Око" 
+                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" 
+              />
+              <div class="absolute bottom-3 right-3 bg-black/80 px-3 py-1 rounded-full font-mono text-[11px] text-slate-300 border border-white/10">
+                Слот: assets/projects/project2.png
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXHIBIT 03: Gelendzhik Custom Glass Architecture -->
+      <div class="showcase-exhibit rounded-3xl p-6 sm:p-12 border border-white/10 relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-6 space-y-6">
+            <div class="flex items-center gap-3 font-mono text-xs text-celestial-400">
+              <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">ЭКСПОНАТ №03</span>
+              <span>// АРХИТЕКТУРНЫЙ ПОРТАЛ</span>
+            </div>
+
+            <h3 class="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight">
+              Gelendzhik Glass — Премиальное фасадное остекление
+            </h3>
+
+            <!-- Storytelling -->
+            <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+              <div class="p-4 rounded-xl bg-white/5 border-l-2 border-celestial-400">
+                <strong class="text-white block mb-1">История задачи:</strong>
+                Показать масштаб и эстетику панорамных террас на берегу моря для архитекторов элитных резиденций и отелей.
+              </div>
+              <div class="p-4 rounded-xl bg-white/5 border-l-2 border-pink-400">
+                <strong class="text-white block mb-1">Воплощение:</strong>
+                Глубокий стеклянный дизайн, интерактивный просмотр светопрозрачных конструкций и рост входящих заявок от девелоперов на 150%.
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Glassmorphism UI</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Конфигуратор профилей</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Моментальный лид</span>
+            </div>
+
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between font-mono text-xs">
+              <span class="text-emerald-400">Срок создания: 2 дня</span>
+              <a href="https://t.me/illarion" target="_blank" class="text-gold-300 hover:underline flex items-center gap-1 font-bold">
+                <span>Хочу похожий премиум-сайт</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Exhibit Slot for project 3 screenshot -->
+          <div class="lg:col-span-6">
+            <div class="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-white/15 shadow-2xl group">
+              <img 
+                id="img-exhibit-3"
+                src="assets/projects/project3.png" 
+                onerror="showMuseumPlaceholder(this, 'Премиальное остекление вилл', 'Скриншот: assets/projects/project3.png')" 
+                alt="Gelendzhik Glass" 
+                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" 
+              />
+              <div class="absolute bottom-3 right-3 bg-black/80 px-3 py-1 rounded-full font-mono text-[11px] text-slate-300 border border-white/10">
+                Слот: assets/projects/project3.png
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXHIBIT 04: NeuralFlow AI Orchestrator -->
+      <div class="showcase-exhibit rounded-3xl p-6 sm:p-12 border border-white/10 relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-6 lg:order-2 space-y-6">
+            <div class="flex items-center gap-3 font-mono text-xs text-pink-400">
+              <span class="px-2.5 py-1 rounded bg-white/5 border border-white/10">ЭКСПОНАТ №04</span>
+              <span>// УМНЫЙ AI-АССИСТЕНТ</span>
+            </div>
+
+            <h3 class="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight">
+              NeuralFlow — Автономный прием заявок без сна
+            </h3>
+
+            <!-- Storytelling -->
+            <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+              <div class="p-4 rounded-xl bg-white/5 border-l-2 border-pink-400">
+                <strong class="text-white block mb-1">История задачи:</strong>
+                Клиенты писали по ночам, менеджеры спали, а утром заказчики уже уходили к конкурентам, которые ответили быстрее.
+              </div>
+              <div class="p-4 rounded-xl bg-white/5 border-l-2 border-emerald-400">
+                <strong class="text-white block mb-1">Воплощение:</strong>
+                Обученный AI-ассистент в Telegram и на сайте, который ведет человечный диалог, отвечает на вопросы о ценах и сам оформляет бронь в базе.
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Claude 3.5 AI Core</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">Интеграция CRM</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 font-mono text-xs text-slate-300 border border-white/10">24/7 Без выходных</span>
+            </div>
+
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between font-mono text-xs">
+              <span class="text-emerald-400">Срок создания: 3 дня</span>
+              <a href="https://t.me/illarion" target="_blank" class="text-gold-300 hover:underline flex items-center gap-1 font-bold">
+                <span>Подключить такого бота</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Exhibit Slot for project 4 screenshot -->
+          <div class="lg:col-span-6 lg:order-1">
+            <div class="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-white/15 shadow-2xl group">
+              <img 
+                id="img-exhibit-4"
+                src="assets/projects/project4.png" 
+                onerror="showMuseumPlaceholder(this, 'AI-Оркестратор NeuralFlow', 'Скриншот: assets/projects/project4.png')" 
+                alt="NeuralFlow AI" 
+                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" 
+              />
+              <div class="absolute bottom-3 right-3 bg-black/80 px-3 py-1 rounded-full font-mono text-[11px] text-slate-300 border border-white/10">
+                Слот: assets/projects/project4.png
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CHAPTER 3: THREE ACTS OF CREATION (ЭТАПЫ РАБОТЫ) -->
+    <section id="lab" class="space-y-12 scroll-mt-24">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full curator-tag text-xs font-mono text-gold-300 uppercase tracking-widest">
+          ПРОТОКОЛ ВЗАИМОДЕЙСТВИЯ
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-serif font-bold text-white">
+          Три акта создания вашего проекта
+        </h2>
+        <p class="text-slate-400 text-base sm:text-lg">
+          Как мы проходим путь от мысли до оваций за считанные дни без стресса.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="showcase-exhibit rounded-3xl p-8 border border-white/10 space-y-4">
+          <div class="text-gold-300 font-serif italic text-4xl">Акт I</div>
+          <h3 class="text-xl font-serif font-bold text-white">Искра и диалог</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Мы созваниваемся или списываемся в Telegram на 15–20 минут. Вы рассказываете задачу своими словами. Я сразу вижу архитектуру и фиксирую четкий срок.
+          </p>
+          <div class="text-xs font-mono text-emerald-400 pt-2">
+            ✓ Без заполнения нудных 50-страничных брифов
+          </div>
+        </div>
+
+        <div class="showcase-exhibit rounded-3xl p-8 border border-white/10 space-y-4">
+          <div class="text-celestial-400 font-serif italic text-4xl">Акт II</div>
+          <h3 class="text-xl font-serif font-bold text-white">Материализация</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Через 24–48 часов вы получаете ссылку на живой работающий черновик. Открываете на телефоне, нажимаете кнопки, вносите свои замечания.
+          </p>
+          <div class="text-xs font-mono text-celestial-300 pt-2">
+            ✓ Реальный работающий код, а не статичная картинка
+          </div>
+        </div>
+
+        <div class="showcase-exhibit rounded-3xl p-8 border border-white/10 space-y-4">
+          <div class="text-pink-300 font-serif italic text-4xl">Акт III</div>
+          <h3 class="text-xl font-serif font-bold text-white">Триумф и запуск</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Подключаем ваш красивый домен, настраиваем уведомления и платежи, передаем все ключи и обучаем легкой смене текстов.
+          </p>
+          <div class="text-xs font-mono text-gold-300 pt-2">
+            ✓ Продукт готов приносить прибыль
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4: THE CREATOR (ОБО МНЕ И ДИАЛОГ) -->
+    <section id="creator" class="space-y-12 scroll-mt-24">
+      <div class="showcase-exhibit rounded-3xl p-8 sm:p-14 border border-white/15 relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full curator-tag text-xs font-mono text-gold-300">
+              СОЗДАТЕЛЬ // ILLARION GONGADZE
+            </div>
+
+            <h2 class="text-3xl sm:text-5xl font-serif font-bold text-white leading-tight">
+              Давайте создадим нечто выдающееся для вашего дела
+            </h2>
+
+            <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-light">
+              Я, <strong>Гонгадзе Илларион Сергеевич</strong>, лично отвечаю за каждый созданный проект. 
+              Никаких посредников, никаких студийных наценок. Прямая связь, кристальная честность и максимальный вайб.
+            </p>
+
+            <div class="pt-2">
+              <a href="https://t.me/illarion" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-celestial-600 via-indigo-600 to-indigo-800 hover:from-celestial-500 hover:to-indigo-700 text-white font-display font-bold text-base shadow-xl shadow-celestial-500/30 active:scale-95 transition-all border border-white/20">
+                <span class="material-symbols-outlined text-xl">send</span>
+                <span>Написать Иллариону в Telegram (@illarion)</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 bg-black/60 p-6 sm:p-8 rounded-2xl border border-white/10 space-y-4">
+            <h4 class="font-serif font-bold text-lg text-white">Прямой запрос автору:</h4>
+            <form onsubmit="handleDirectMessage(event)" class="space-y-3 font-sans">
+              <input 
+                type="text" 
+                id="msg-name" 
+                required 
+                placeholder="Ваше имя" 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm focus:border-celestial-500 focus:outline-none transition-all"
+              />
+              <input 
+                type="text" 
+                id="msg-contact" 
+                required 
+                placeholder="Telegram (@ник) или телефон" 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm focus:border-celestial-500 focus:outline-none transition-all"
+              />
+              <textarea 
+                id="msg-text" 
+                rows="3" 
+                required 
+                placeholder="Расскажите в двух словах о вашей задумке..." 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm focus:border-celestial-500 focus:outline-none transition-all"
+              ></textarea>
+              <button 
+                type="submit" 
+                class="w-full py-3.5 rounded-xl bg-white text-noir font-display font-bold text-sm hover:bg-slate-200 transition-all cursor-pointer"
+              >
+                Отправить заявку
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 bg-noir/90 py-12 relative z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6 text-xs text-slate-500 font-mono">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-celestial-600 text-white font-serif font-bold flex items-center justify-center text-sm">
+          ИГ
+        </div>
+        <div>
+          <span class="text-white font-serif font-bold text-sm block">Гонгадзе Илларион Сергеевич</span>
+          <span>© 2026 • Эра Вайб-Кодинга • Свиньи летают</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="https://t.me/illarion" target="_blank" class="hover:text-gold-300 transition-colors">Telegram</a>
+        <a href="mailto:illarion.gongadze@gmail.com" class="hover:text-gold-300 transition-colors">Email</a>
+        <a href="#hero" class="hover:text-white transition-colors">Наверх ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MEDIA MODAL FOR REPLACING PHOTOS -->
+  <div id="media-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="showcase-exhibit max-w-2xl w-full rounded-3xl border border-white/20 p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto relative">
+      <button onclick="toggleMediaModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1">
+        <span class="material-symbols-outlined text-2xl">close</span>
+      </button>
+
+      <div>
+        <div class="text-xs font-mono text-gold-400 mb-1">МЕДИА-КУРАТОР</div>
+        <h3 class="text-2xl font-serif font-bold text-white">Добавление ваших фото и скриншотов</h3>
+        <p class="text-xs text-slate-400 mt-1">Инструкция для Гонгадзе Иллариона Сергеевича</p>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2 text-xs text-slate-300">
+        <div class="font-bold text-white text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-gold-400">folder</span>
+          Файлы в папке проекта:
+        </div>
+        <ul class="space-y-1 list-disc list-inside font-mono text-slate-300">
+          <li><strong>assets/photo.jpg</strong> — Ваше фото для главной витрины</li>
+          <li><strong>assets/projects/project1.png</strong> — Скриншот UseIt (Экспонат №1)</li>
+          <li><strong>assets/projects/project2.png</strong> — Скриншот SaaS «Око» (Экспонат №2)</li>
+          <li><strong>assets/projects/project3.png</strong> — Скриншот Glass Architecture (Экспонат №3)</li>
+          <li><strong>assets/projects/project4.png</strong> — Скриншот NeuralFlow (Экспонат №4)</li>
+        </ul>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-celestial-500/10 border border-celestial-500/30 space-y-3 text-xs text-slate-300">
+        <div class="font-bold text-white text-sm flex items-center gap-2">
+          <span class="material-symbols-outlined text-celestial-400">visibility</span>
+          Мгновенная примерка в браузере:
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="file" id="browser-photo-input" accept="image/*" onchange="previewBrowserPhoto(this)" class="hidden" />
+          <label for="browser-photo-input" class="px-4 py-2.5 rounded-xl bg-celestial-600 hover:bg-celestial-500 text-white font-bold cursor-pointer transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">photo_camera</span>
+            <span>Выбрать фото с компьютера</span>
+          </label>
+          <span id="browser-photo-status" class="text-slate-400">Файл не выбран</span>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-2 border-t border-white/10">
+        <button onclick="toggleMediaModal()" class="px-5 py-2.5 rounded-xl bg-white text-noir font-display font-bold text-xs hover:bg-slate-200 transition-all">
+          Понятно, закрыть
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: ELASTIC CONSTELLATIONS & FLYING WINGED PIGS ENGINE -->
+  <script>
+    // Modal toggle
+    function toggleMediaModal() {
+      document.getElementById('media-modal').classList.toggle('hidden');
+    }
+
+    // Photo preview
+    function previewBrowserPhoto(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('creator-photo').src = e.target.result;
+          document.getElementById('browser-photo-status').textContent = 'Применено на главной витрине!';
+          document.getElementById('browser-photo-status').className = 'text-emerald-400 font-bold';
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // Direct message submit
+    function handleDirectMessage(e) {
+      e.preventDefault();
+      const name = document.getElementById('msg-name').value;
+      const contact = document.getElementById('msg-contact').value;
+      const text = document.getElementById('msg-text').value;
+
+      alert(`Благодарю, ${name}!\n\nВаше сообщение отправлено:\n«${text}»\n\nИлларион Гонгадзе свяжется с вами (${contact}) в течение 15 минут.`);
+      e.target.reset();
+    }
+
+    // Museum placeholder SVG
+    function showMuseumPlaceholder(img, title, hint) {
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+          <defs>
+            <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0a0c16"/>
+              <stop offset="100%" stop-color="#141829"/>
+            </linearGradient>
+          </defs>
+          <rect width="640" height="360" fill="url(#g)"/>
+          <circle cx="320" cy="140" r="42" fill="#1b2138" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <path d="M308 140 L332 140 M320 128 L320 152" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+          <text x="320" y="215" fill="#ffffff" font-family="Playfair Display, serif" font-weight="bold" font-size="20" text-anchor="middle">${title}</text>
+          <text x="320" y="245" fill="#fde68a" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">${hint}</text>
+          <text x="320" y="270" fill="#64748b" font-family="Inter, sans-serif" font-size="11" text-anchor="middle">[ Зарезервировано под скриншот экспоната ]</text>
+        </svg>
+      `;
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+
+    /* =========================================================================
+       CANVAS PHYSICS: ELASTIC CONSTELLATIONS & FLYING WINGED PIGS
+       ========================================================================= */
+    const canvas = document.getElementById('space-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Mouse tracking with elastic drag
+    const mouse = {
+      x: -1000,
+      y: -1000,
+      prevX: -1000,
+      prevY: -1000,
+      vx: 0,
+      vy: 0,
+      isDown: false
+    };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.vx = e.clientX - mouse.x;
+      mouse.vy = e.clientY - mouse.y;
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    });
+
+    // 1. ELASTIC SPRING CONSTELLATIONS
+    // Each star has an anchor (home position) and springs back when perturbed
+    const stars = [];
+    const NUM_STARS = Math.min(85, Math.floor((width * height) / 16000));
+
+    class StarNode {
+      constructor(x, y) {
+        this.homeX = x;
+        this.homeY = y;
+        this.x = x;
+        this.y = y;
+        this.vx = 0;
+        this.vy = 0;
+        this.radius = Math.random() * 2 + 1.2;
+        this.springK = 0.035 + Math.random() * 0.015; // Spring stiffness
+        this.damping = 0.86; // Friction / bounce factor
+        this.brightness = Math.random() * 0.5 + 0.5;
+      }
+
+      update() {
+        // Distance to mouse
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxInfluence = 140;
+
+        if (dist < maxInfluence && dist > 0) {
+          // Elastic tug: pull or push the star in the direction of mouse movement & stretch
+          const force = (1 - dist / maxInfluence) * 18;
+          const angle = Math.atan2(dy, dx);
+          
+          // Impart mouse momentum to create a rubber stretch
+          this.vx += (Math.cos(angle) * force * 0.4) + (mouse.vx * 0.15);
+          this.vy += (Math.sin(angle) * force * 0.4) + (mouse.vy * 0.15);
+        }
+
+        // Spring force returning node to home position (Hooke's Law: F = -k * displacement)
+        const dispX = this.x - this.homeX;
+        const dispY = this.y - this.homeY;
+
+        this.vx -= dispX * this.springK;
+        this.vy -= dispY * this.springK;
+
+        // Apply damping
+        this.vx *= this.damping;
+        this.vy *= this.damping;
+
+        // Update position
+        this.x += this.vx;
+        this.y += this.vy;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(253, 230, 138, ${this.brightness})`;
+        ctx.shadowColor = '#f59e0b';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    // Initialize stars grid
+    for (let i = 0; i < NUM_STARS; i++) {
+      stars.push(new StarNode(Math.random() * width, Math.random() * height));
+    }
+
+    // 2. CELESTIAL FLYING PIGS WITH FLAPPING WINGS 🐷🪽
+    class FlyingPig {
+      constructor(x, y, scale = 1, speed = 1) {
+        this.x = x || -80;
+        this.y = y || Math.random() * (height * 0.8) + 50;
+        this.scale = scale;
+        this.speedX = speed;
+        this.baseY = this.y;
+        this.bobbleOffset = Math.random() * Math.PI * 2;
+        this.wingAngle = 0;
+        this.wingSpeed = 0.22;
+        this.isHovered = false;
+        this.rollAngle = 0;
+      }
+
+      update() {
+        this.x += this.speedX;
+        // Gentle bobbing flight path
+        this.bobbleOffset += 0.035;
+        this.y = this.baseY + Math.sin(this.bobbleOffset) * 18;
+
+        // Flapping wings oscillation
+        this.wingAngle = Math.sin(Date.now() * 0.012 * (this.speedX + 0.5)) * 0.65;
+
+        // Mouse hover interaction: if user moves cursor near the pig, it speeds up & does a joyful barrel roll
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        if (Math.hypot(dx, dy) < 90 * this.scale) {
+          this.rollAngle += 0.2;
+          this.speedX = Math.min(this.speedX + 0.1, 4);
+        } else if (this.rollAngle > 0) {
+          this.rollAngle = (this.rollAngle + 0.15) % (Math.PI * 2);
+          if (this.rollAngle < 0.2) this.rollAngle = 0;
+          this.speedX = Math.max(this.speedX - 0.05, 1);
+        }
+
+        // Loop back when flying off screen
+        if (this.x > width + 100) {
+          this.x = -100;
+          this.baseY = Math.random() * (height * 0.8) + 60;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rollAngle);
+        ctx.scale(this.scale, this.scale);
+
+        // Subtle glowing starlight aura around pig
+        const glow = ctx.createRadialGradient(0, 0, 5, 0, 0, 45);
+        glow.addColorStop(0, 'rgba(244, 114, 182, 0.2)');
+        glow.addColorStop(1, 'transparent');
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(0, 0, 45, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 1. Back Wing (flapping)
+        ctx.save();
+        ctx.translate(-5, -12);
+        ctx.rotate(-this.wingAngle - 0.2);
+        this.drawWing(0.85);
+        ctx.restore();
+
+        // 2. Curly Tail on left back
+        ctx.beginPath();
+        ctx.strokeStyle = '#f472b6';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.arc(-26, 2, 7, 0, Math.PI * 1.5, false);
+        ctx.stroke();
+
+        // 3. Pig Feet (Trotters)
+        ctx.fillStyle = '#f472b6';
+        ctx.beginPath();
+        ctx.roundRect(-16, 12, 6, 8, 3);
+        ctx.roundRect(10, 12, 6, 8, 3);
+        ctx.fill();
+
+        // 4. Chubby Body (ellipse)
+        ctx.fillStyle = '#fbcfe8'; // Soft pastel pink
+        ctx.strokeStyle = '#f472b6';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.ellipse(0, 2, 25, 18, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        // 5. Cute Pig Head
+        ctx.beginPath();
+        ctx.arc(18, -4, 14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        // 6. Cute Ears
+        ctx.beginPath();
+        ctx.moveTo(14, -14);
+        ctx.lineTo(20, -22);
+        ctx.lineTo(25, -14);
+        ctx.closePath();
+        ctx.fillStyle = '#f472b6';
+        ctx.fill();
+        ctx.stroke();
+
+        // 7. Happy Eye
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.arc(22, -6, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+        // Eye twinkle
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(23, -7, 0.8, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 8. Snout
+        ctx.fillStyle = '#f472b6';
+        ctx.beginPath();
+        ctx.roundRect(26, -5, 10, 8, 4);
+        ctx.fill();
+        ctx.stroke();
+        // Nostrils
+        ctx.fillStyle = '#9d174d';
+        ctx.beginPath();
+        ctx.arc(29, -1, 1.2, 0, Math.PI * 2);
+        ctx.arc(33, -1, 1.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 9. Front Wing (flapping dynamically)
+        ctx.save();
+        ctx.translate(4, -10);
+        ctx.rotate(this.wingAngle);
+        this.drawWing(1.1);
+        ctx.restore();
+
+        // 10. Cute blushing cheek
+        ctx.fillStyle = 'rgba(236, 72, 153, 0.4)';
+        ctx.beginPath();
+        ctx.arc(19, 2, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      drawWing(scale = 1) {
+        ctx.save();
+        ctx.scale(scale, scale);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.strokeStyle = '#c084fc';
+        ctx.lineWidth = 1.5;
+        
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(-10, -22, 16, -26, 18, -12);
+        ctx.bezierCurveTo(20, -5, 12, 0, 0, 0);
+        ctx.fill();
+        ctx.stroke();
+
+        // Feather lines inside wing
+        ctx.strokeStyle = 'rgba(192, 132, 252, 0.6)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(4, -5);
+        ctx.lineTo(8, -16);
+        ctx.moveTo(8, -4);
+        ctx.lineTo(13, -13);
+        ctx.stroke();
+
+        ctx.restore();
+      }
+    }
+
+    // Initialize 4 Flying Pigs drifting across the sky
+    const flyingPigs = [
+      new FlyingPig(120, height * 0.18, 0.9, 0.9),
+      new FlyingPig(width * 0.45, height * 0.42, 1.15, 1.2),
+      new FlyingPig(width * 0.8, height * 0.68, 0.8, 0.75),
+      new FlyingPig(width * 0.1, height * 0.82, 1.0, 1.05)
+    ];
+
+    function spawnFlyingPig() {
+      const pig = new FlyingPig(-60, Math.random() * (height * 0.75) + 60, Math.random() * 0.4 + 0.8, Math.random() * 0.8 + 1.1);
+      flyingPigs.push(pig);
+      document.getElementById('pig-counter').textContent = flyingPigs.length;
+    }
+
+    // MAIN ANIMATION LOOP (60 FPS)
+    function renderSpace() {
+      ctx.clearRect(0, 0, width, height);
+
+      // 1. Draw Constellation Rubber Lines
+      const MAX_DIST = 135;
+      for (let i = 0; i < stars.length; i++) {
+        for (let j = i + 1; j < stars.length; j++) {
+          const s1 = stars[i];
+          const s2 = stars[j];
+          const dx = s1.x - s2.x;
+          const dy = s1.y - s2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < MAX_DIST) {
+            // Elastic line opacity and thickness based on stretch
+            const alpha = (1 - dist / MAX_DIST) * 0.28;
+            ctx.beginPath();
+            ctx.moveTo(s1.x, s1.y);
+            ctx.lineTo(s2.x, s2.y);
+            ctx.strokeStyle = `rgba(165, 180, 252, ${alpha})`;
+            ctx.lineWidth = (1 - dist / MAX_DIST) * 1.5 + 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // 2. Update and Draw Star Nodes
+      stars.forEach(star => {
+        star.update();
+        star.draw();
+      });
+
+      // 3. Update and Draw Flying Celestial Pigs
+      flyingPigs.forEach(pig => {
+        pig.update();
+        pig.draw();
+      });
+
+      requestAnimationFrame(renderSpace);
+    }
+    renderSpace();
+  </script>
+</body>
+</html>
